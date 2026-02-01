@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { MapPin, Phone, Clock, MessageCircle, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { getAssetPath } from "@/lib/utils"
 
 const socialLinks = [
   {
@@ -36,7 +37,7 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Image
-                src="/images/logo-white.svg"
+                src={getAssetPath("/images/logo-white.svg")}
                 alt="Логотип Доктор Зуб"
                 width={40}
                 height={59}

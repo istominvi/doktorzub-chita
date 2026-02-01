@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Phone, Menu, X, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { getAssetPath } from "@/lib/utils"
 
 const navigation = [
   { name: "Главная", href: "#" },
@@ -23,7 +24,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           <Link href="#" className="flex items-center gap-2">
             <Image
-              src="/images/logo-black.svg"
+              src={getAssetPath("/images/logo-black.svg")}
               alt="Логотип Доктор Зуб"
               width={40}
               height={59}

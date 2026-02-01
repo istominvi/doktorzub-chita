@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Phone, Clock, MapPin, CheckCircle } from "lucide-react"
+import { getAssetPath } from "@/lib/utils"
 
 const features = [
   "Более 20 лет опыта",
@@ -71,7 +72,7 @@ export function Hero() {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="/images/unwatermarked-1-1.jpeg"
+                src={getAssetPath("/images/unwatermarked-1-1.jpeg")}
                 alt="Врачи стоматологии Доктор Зуб проводят лечение"
                 width={600}
                 height={450}

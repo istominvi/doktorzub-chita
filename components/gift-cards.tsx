@@ -1,11 +1,12 @@
 import Image from "next/image"
 import { Gift, CreditCard, Percent, Users } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { getAssetPath } from "@/lib/utils"
 
 const certificates = [
-  { amount: "1 000 ₽", image: "/images/certificate-1000.jpeg" },
-  { amount: "2 000 ₽", image: "/images/certificate-2000.jpeg" },
-  { amount: "5 000 ₽", image: "/images/certificate-5000.jpeg" },
+  { amount: "1 000 ₽", image: getAssetPath("/images/certificate-1000.jpeg") },
+  { amount: "2 000 ₽", image: getAssetPath("/images/certificate-2000.jpeg") },
+  { amount: "5 000 ₽", image: getAssetPath("/images/certificate-5000.jpeg") },
 ]
 
 export function GiftCards() {
@@ -37,7 +38,7 @@ export function GiftCards() {
               >
                 <div className="aspect-[4/3] relative">
                   <Image
-                    src={cert.image || "/placeholder.svg"}
+                    src={cert.image || getAssetPath("/placeholder.svg")}
                     alt={`Подарочный сертификат на ${cert.amount}`}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
