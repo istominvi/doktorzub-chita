@@ -1,23 +1,24 @@
 import Image from "next/image"
+import { getAssetPath } from "@/lib/utils"
 
 const galleryImages = [
   {
-    src: "/images/unwatermarked-4-1.jpeg",
+    src: getAssetPath("/images/unwatermarked-4-1.jpeg"),
     alt: "Стоматологический кабинет с синим интерьером",
     className: "md:col-span-2 md:row-span-2",
   },
   {
-    src: "/images/unwatermarked-3-1.jpeg",
+    src: getAssetPath("/images/unwatermarked-3-1.jpeg"),
     alt: "Кабинет с розовым креслом и зелёным интерьером",
     className: "",
   },
   {
-    src: "/images/unwatermarked-2-1.jpeg",
+    src: getAssetPath("/images/unwatermarked-2-1.jpeg"),
     alt: "Врачи проводят лечение ребёнка",
     className: "",
   },
   {
-    src: "/images/unwatermarked-5-1.jpeg",
+    src: getAssetPath("/images/unwatermarked-5-1.jpeg"),
     alt: "Кабинет с ярким художественным оформлением",
     className: "md:col-span-2",
   },
@@ -44,7 +45,7 @@ export function Gallery() {
               className={`relative rounded-xl overflow-hidden group ${image.className}`}
             >
               <Image
-                src={image.src || "/placeholder.svg"}
+                src={image.src || getAssetPath("/placeholder.svg")}
                 alt={image.alt}
                 width={600}
                 height={400}
@@ -58,7 +59,7 @@ export function Gallery() {
         <div className="mt-16 grid md:grid-cols-2 gap-8 items-center">
           <div className="relative rounded-xl overflow-hidden">
             <Image
-              src="/images/unwatermarked-gemini-generated-image-z9xt45z9xt45z9xt.jpeg"
+              src={getAssetPath("/images/unwatermarked-gemini-generated-image-z9xt45z9xt45z9xt.jpeg")}
               alt="Сертификаты и дипломы специалистов клиники"
               width={600}
               height={400}
