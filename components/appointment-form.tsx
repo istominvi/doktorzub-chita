@@ -7,16 +7,78 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Phone, Send, CheckCircle } from "lucide-react"
+import { toast } from "sonner"
 
 export function AppointmentForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const formatPhone = (input: string) => {
+    const digits = input.replace(/\D/g, "")
+    let cleaned = digits
+    if (cleaned.startsWith("7") || cleaned.startsWith("8")) {
+      cleaned = cleaned.substring(1)
+    }
+    cleaned = cleaned.substring(0, 10)
+
+    let formatted = "+7"
+    if (cleaned.length > 0) {
+      formatted += " (" + cleaned.substring(0, 3)
+    }
+    if (cleaned.length > 3) {
+      formatted += ") " + cleaned.substring(3, 6)
+    }
+    if (cleaned.length > 6) {
+      formatted += "-" + cleaned.substring(6, 8)
+    }
+    if (cleaned.length > 8) {
+      formatted += "-" + cleaned.substring(8, 10)
+    }
+    return formatted
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value
+    const formatted = formatPhone(input)
+    setPhone(formatted)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In production, this would submit to an API
-    setSubmitted(true)
+    if (isSubmitting) return
+
+    if (phone.length < 18) { // +7 (999) 999-99-99 is 18 chars
+      toast.error("Пожалуйста, введите корректный номер телефона")
+      return
+    }
+
+    setIsSubmitting(true)
+
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxiMJr6C8hQdrazM5ymK1vLZcAB50A23FXKcXnEdvkvWR-7OX1QopdztbUD5cPVj_z5/exec"
+
+    try {
+      // Using text/plain to avoid CORS preflight issues with Google Apps Script
+      await fetch(scriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: JSON.stringify({ name, phone }),
+      })
+
+      // Since we use no-cors, we won't get a readable response,
+      // but if fetch doesn't throw, we assume success.
+      setSubmitted(true)
+      toast.success("Заявка успешно отправлена!")
+    } catch (error) {
+      console.error("Submission error:", error)
+      toast.error("Ошибка при отправке. Пожалуйста, позвоните нам по телефону.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (submitted) {
@@ -113,13 +175,17 @@ export function AppointmentForm() {
                   <Input
                     id="phone"
                     type="tel"
-                    placeholder="+7 (___) ___-__-__"
+                    placeholder="+7 (999) 000-00-00"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={handlePhoneChange}
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" size="lg">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  size="lg"
+                >
                   <Send className="h-4 w-4 mr-2" />
                   Отправить заявку
                 </Button>

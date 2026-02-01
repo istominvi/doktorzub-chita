@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { getAssetPath } from "@/lib/utils"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="ru">
       <body className={`${inter.className} antialiased`}>
         {children}
+        <Toaster />
         <Analytics />
       </body>
     </html>
