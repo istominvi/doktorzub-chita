@@ -49,11 +49,6 @@ export function AppointmentForm() {
     e.preventDefault()
     if (isSubmitting) return
 
-    if (phone.length < 18) { // +7 (999) 999-99-99 is 18 chars
-      toast.error("Пожалуйста, введите корректный номер телефона")
-      return
-    }
-
     setIsSubmitting(true)
 
     const scriptUrl = "https://script.google.com/macros/s/AKfycbxiMJr6C8hQdrazM5ymK1vLZcAB50A23FXKcXnEdvkvWR-7OX1QopdztbUD5cPVj_z5/exec"
