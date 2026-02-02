@@ -7,16 +7,63 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Phone, Send, CheckCircle } from "lucide-react"
+import { toast } from "sonner"
+
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxiMJr6C8hQdrazM5ymK1vLZcAB50A23FXKcXnEdvkvWR-7OX1QopdztbUD5cPVj_z5/exec"
 
 export function AppointmentForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value
+    const digits = input.replace(/\D/g, "").replace(/^7|^8/, "")
+
+    let formatted = "+7"
+    if (digits.length > 0) {
+      formatted += " (" + digits.substring(0, 3)
+    }
+    if (digits.length >= 4) {
+      formatted += ") " + digits.substring(3, 6)
+    }
+    if (digits.length >= 7) {
+      formatted += "-" + digits.substring(6, 8)
+    }
+    if (digits.length >= 9) {
+      formatted += "-" + digits.substring(8, 10)
+    }
+
+    if (digits.length <= 10) {
+      setPhone(formatted)
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In production, this would submit to an API
-    setSubmitted(true)
+    setIsSubmitting(true)
+
+    try {
+      // Remove '+' from the beginning of the phone number to avoid formula error in Google Sheets
+      const cleanPhone = phone.replace(/^\+/, "")
+
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: JSON.stringify({ name, phone: cleanPhone }),
+      })
+
+      setSubmitted(true)
+      toast.success("Заявка успешно отправлена!")
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      toast.error("Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.")
+      setIsSubmitting(false)
+    }
   }
 
   if (submitted) {
@@ -115,13 +162,18 @@ export function AppointmentForm() {
                     type="tel"
                     placeholder="+7 (___) ___-__-__"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={handlePhoneChange}
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" size="lg">
+                <Button
+                  type="submit"
+                  className="w-full cursor-pointer"
+                  size="lg"
+                  disabled={isSubmitting}
+                >
                   <Send className="h-4 w-4 mr-2" />
-                  Отправить заявку
+                  {isSubmitting ? "Отправка..." : "Отправить заявку"}
                 </Button>
                 <p className="text-xs text-muted-foreground text-center">
                   Нажимая кнопку, вы соглашаетесь на обработку персональных данных
