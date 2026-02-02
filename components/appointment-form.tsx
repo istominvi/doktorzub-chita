@@ -13,6 +13,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxiMJr6C8hQdraz
 
 export function AppointmentForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
 
@@ -41,15 +42,19 @@ export function AppointmentForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
 
     try {
+      // Remove '+' from the beginning of the phone number to avoid formula error in Google Sheets
+      const cleanPhone = phone.replace(/^\+/, "")
+
       await fetch(APPS_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: {
           "Content-Type": "text/plain",
         },
-        body: JSON.stringify({ name, phone }),
+        body: JSON.stringify({ name, phone: cleanPhone }),
       })
 
       setSubmitted(true)
@@ -57,6 +62,7 @@ export function AppointmentForm() {
     } catch (error) {
       console.error("Error submitting form:", error)
       toast.error("Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз.")
+      setIsSubmitting(false)
     }
   }
 
@@ -160,9 +166,14 @@ export function AppointmentForm() {
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" size="lg">
+                <Button
+                  type="submit"
+                  className="w-full cursor-pointer"
+                  size="lg"
+                  disabled={isSubmitting}
+                >
                   <Send className="h-4 w-4 mr-2" />
-                  Отправить заявку
+                  {isSubmitting ? "Отправка..." : "Отправить заявку"}
                 </Button>
                 <p className="text-xs text-muted-foreground text-center">
                   Нажимая кнопку, вы соглашаетесь на обработку персональных данных
