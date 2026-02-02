@@ -1,6 +1,9 @@
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const basePath = isGithubActions ? '/doktorzub-chita' : '';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/doktorzub-chita',
+  basePath,
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -9,7 +12,7 @@ const nextConfig = {
   },
   output: 'export',
   env: {
-    NEXT_PUBLIC_BASE_PATH: '/doktorzub-chita',
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
 }
 
