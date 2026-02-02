@@ -98,14 +98,16 @@ export function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center text-background/70 hover:text-background hover:bg-background/20 transition-colors"
+                  className="group w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-background/20 transition-colors"
                   aria-label={link.name}
                 >
                   <link.icon
                     className={
-                      link.name === "Telegram"
-                        ? "h-[18px] w-[18px] translate-x-[1px] translate-y-[-0.5px]"
-                        : "h-5 w-5"
+                      `text-background/70 group-hover:text-background transition-colors ${
+                        link.name === "Telegram"
+                          ? "h-[18px] w-[18px] translate-x-[1px] translate-y-[-1px]"
+                          : "h-5 w-5"
+                      }`
                     }
                   />
                 </a>
