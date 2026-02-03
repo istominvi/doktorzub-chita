@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   description: 'Стоматология в Чите с 20-летним опытом. Лечение зубов, протезирование, отбеливание, детская стоматология. Бесплатная консультация. Запись: 8 (3022) 32-06-30',
   keywords: 'стоматология чита, доктор зуб, лечение зубов, протезирование, отбеливание зубов, детская стоматология',
     icons: {
-      icon: getAssetPath('/icon.svg'),
+      icon: [
+        { url: getAssetPath('/favicon.svg'), type: 'image/svg+xml' },
+      ],
       apple: getAssetPath('/apple-icon.png'),
     }
 }
