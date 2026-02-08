@@ -129,7 +129,7 @@ export function Footer() {
               © 2004 — {new Date().getFullYear()} ООО «Доктор Зуб». Все права защищены.
             </p>
             <p className="text-sm text-background/50">
-              ИНН: 7536000000 | ОГРН: 1047536000000
+              ИНН: 7536104220 | ОГРН: 1097536005786
             </p>
           </div>
         </div>
