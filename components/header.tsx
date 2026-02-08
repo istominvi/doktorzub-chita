@@ -48,11 +48,17 @@ export function Header() {
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+73022320630" className="flex items-center gap-2 text-sm font-medium text-foreground">
-              <Phone className="h-4 w-4 text-primary" />
-              <span>8 (3022) 32-06-30</span>
-            </a>
+          <div className="hidden md:flex items-center gap-6">
+            <div className="flex flex-col items-end">
+              <a href="tel:+73022320630" className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors">
+                <Phone className="h-3.5 w-3.5 text-primary" />
+                <span>8 (3022) 32-06-30</span>
+              </a>
+              <a href="tel:+79141338887" className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors">
+                <Phone className="h-3.5 w-3.5 text-primary" />
+                <span>+7 (914) 133-88-87</span>
+              </a>
+            </div>
             <Button asChild size="sm">
               <a href="#appointment">
                 <MessageCircle className="h-4 w-4 mr-2" />
@@ -84,10 +90,16 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              <a href="tel:+73022320630" className="flex items-center gap-2 text-sm font-medium text-foreground mt-2">
-                <Phone className="h-4 w-4 text-primary" />
-                <span>8 (3022) 32-06-30</span>
-              </a>
+              <div className="flex flex-col gap-3 mt-2">
+                <a href="tel:+73022320630" className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span>8 (3022) 32-06-30</span>
+                </a>
+                <a href="tel:+79141338887" className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span>+7 (914) 133-88-87</span>
+                </a>
+              </div>
               <Button asChild size="sm" className="w-full mt-2">
                 <a href="#appointment">
                   <MessageCircle className="h-4 w-4 mr-2" />
