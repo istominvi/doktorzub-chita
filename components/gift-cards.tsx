@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Gift, CreditCard, Percent, Users } from "lucide-react"
+import { Gift, Percent } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getAssetPath } from "@/lib/utils"
 
@@ -53,31 +53,8 @@ export function GiftCards() {
           </div>
 
           {/* Discount Cards */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="border-border/50">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <CreditCard className="h-5 w-5 text-accent" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-lg">Дисконтная карта</CardTitle>
-                    <CardDescription>Накопительная система скидок</CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-foreground/80 mb-3">
-                  Накапливайте скидку до <span className="font-bold text-primary">19%</span> на все услуги клиники.
-                </p>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Users className="h-4 w-4" />
-                  Картой может пользоваться вся семья
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border/50">
+          <div className="flex justify-center">
+            <Card className="border-border/50 max-w-2xl w-full">
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -102,6 +79,10 @@ export function GiftCards() {
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                     Возможность рассрочки
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    Скидка для членов семьи – до 15%
                   </li>
                 </ul>
               </CardContent>

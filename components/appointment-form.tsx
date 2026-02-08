@@ -122,13 +122,22 @@ export function AppointmentForm() {
 
             <div className="pt-4">
               <p className="text-sm text-muted-foreground mb-2">Или позвоните нам напрямую:</p>
-              <a 
-                href="tel:+73022320630" 
-                className="inline-flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors"
-              >
-                <Phone className="h-5 w-5" />
-                8 (3022) 32-06-30
-              </a>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="tel:+73022320630"
+                  className="inline-flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors"
+                >
+                  <Phone className="h-5 w-5" />
+                  8 (3022) 32-06-30
+                </a>
+                <a
+                  href="tel:+79141338887"
+                  className="inline-flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors"
+                >
+                  <Phone className="h-5 w-5" />
+                  +7 (914) 133-88-87
+                </a>
+              </div>
             </div>
           </div>
 

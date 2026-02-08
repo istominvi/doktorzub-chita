@@ -1,4 +1,4 @@
-import { Stethoscope, Sparkles, Crown, Smile, Baby, Heart } from "lucide-react"
+import { Stethoscope, Sparkles, Crown, Smile, Heart } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 const services = [
@@ -25,12 +25,6 @@ const services = [
     title: "Реставрация",
     description: "Художественное восстановление формы и цвета зубов.",
     items: ["Передние зубы", "Жевательные зубы", "Детская реставрация"],
-  },
-  {
-    icon: Baby,
-    title: "Детская стоматология",
-    description: "Бережное отношение к маленьким пациентам. Лечение без страха.",
-    items: ["Лечение молочных зубов", "Реставрация", "Профилактика"],
   },
   {
     icon: Heart,

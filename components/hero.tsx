@@ -43,28 +43,40 @@ export function Hero() {
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" asChild className="text-base">
+            <div className="flex flex-col gap-4">
+              <Button size="lg" asChild className="text-base w-full sm:w-fit">
                 <a href="#appointment">
                   Записаться на приём
                 </a>
               </Button>
-              <Button size="lg" variant="outline" asChild className="text-base bg-transparent">
-                <a href="tel:+73022320630">
-                  <Phone className="h-4 w-4 mr-2" />
-                  8 (3022) 32-06-30
-                </a>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" variant="outline" asChild className="text-base bg-transparent">
+                  <a href="tel:+73022320630">
+                    <Phone className="h-4 w-4 mr-2" />
+                    8 (3022) 32-06-30
+                  </a>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="text-base bg-transparent">
+                  <a href="tel:+79141338887">
+                    <Phone className="h-4 w-4 mr-2" />
+                    +7 (914) 133-88-87
+                  </a>
+                </Button>
+              </div>
             </div>
 
-            <div className="flex flex-wrap gap-6 pt-4 border-t border-border">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 pt-4 border-t border-border">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Clock className="h-4 w-4 text-primary" />
                 <span>Пн-Пт: 10:00 — 19:00</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="h-4 w-4 text-primary" />
+                <span>Сб-Вс: по предварительной записи</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4 text-primary" />
-                <span>ул. Новобульварная, 96</span>
+                <span>ул. Новобульварная, 96 (в здании дома быта), 2 этаж, кабинет №26</span>
               </div>
             </div>
           </div>
