@@ -68,13 +68,13 @@ export function Footer() {
               </li>
               <li>
                 <a href="tel:+79141338887" className="flex items-center gap-2 text-background/70 hover:text-background transition-colors">
-                  <MessageCircle className="h-4 w-4" />
+                  <Phone className="h-4 w-4" />
                   +7 (914) 133-88-87
                 </a>
               </li>
               <li className="flex items-start gap-2 text-background/70">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                <span>г. Чита, ул. Новобульварная, 96, 2 этаж, каб. №26</span>
+                <span>г. Чита, ул. Новобульварная, 96 (в здании дома быта), 2 этаж, кабинет №26</span>
               </li>
             </ul>
           </div>
@@ -88,7 +88,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 text-background/70">
                 <Clock className="h-4 w-4" />
-                <span>Сб — Вс: по записи</span>
+                <span>Сб — Вс: по предварительной записи</span>
               </li>
             </ul>
           </div>
