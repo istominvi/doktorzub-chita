@@ -31,8 +31,27 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Resolve base path mode
+        id: basepath
+        run: |
+          # Priority:
+          # 1) Repository variable BASE_PATH (explicit override)
+          # 2) Repository variable CUSTOM_DOMAIN_ENABLED=true -> root path
+          # 3) Default project-pages mode -> /doktorzub-chita
+          if [ "${{ vars.BASE_PATH }}" != "" ]; then
+            echo "mode=manual" >> "$GITHUB_OUTPUT"
+            echo "value=${{ vars.BASE_PATH }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ vars.CUSTOM_DOMAIN_ENABLED }}" = "true" ]; then
+            echo "mode=custom-domain" >> "$GITHUB_OUTPUT"
+            echo "value=" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=project-pages" >> "$GITHUB_OUTPUT"
+            echo "value=/doktorzub-chita" >> "$GITHUB_OUTPUT"
+          fi
       - name: Build
-        run: pnpm build
+        run: |
+          echo "Build mode: ${{ steps.basepath.outputs.mode }}"
+          BASE_PATH="${{ steps.basepath.outputs.value }}" pnpm build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
