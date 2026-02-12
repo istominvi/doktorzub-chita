@@ -1,19 +1,15 @@
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true'
-const explicitBasePath = process.env.BASE_PATH
-function normalizeBasePath(pathValue) {
-  if (!pathValue || pathValue === '/') return ''
-  return pathValue.startsWith('/') ? pathValue : `/${pathValue}`
-}
+const hasCustomDomain = process.env.HAS_CUSTOM_DOMAIN === 'true'
 
-// Strategy:
-// 1) BASE_PATH (manual override) has top priority.
-// 2) In GitHub Actions by default -> repo prefix for project-pages URL.
-// 3) Local/Vercel by default -> root paths.
-const basePath = explicitBasePath !== undefined
-  ? normalizeBasePath(explicitBasePath)
-  : isGithubActions
-    ? '/doktorzub-chita'
-    : ''
+// Two-mode strategy:
+// 1) Custom domain (root): ""
+// 2) Project pages (repo prefix): "/doktorzub-chita"
+// Local and Vercel stay on root paths.
+const basePath = isGithubActions
+  ? hasCustomDomain
+    ? ''
+    : '/doktorzub-chita'
+  : ''
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
