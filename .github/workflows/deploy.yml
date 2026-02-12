@@ -31,8 +31,23 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Resolve deploy mode
+        id: mode
+        run: |
+          # Only 2 modes:
+          # - CUSTOM_DOMAIN_ENABLED=true  -> custom domain (root paths)
+          # - otherwise                   -> project pages (/doktorzub-chita)
+          if [ "${{ vars.CUSTOM_DOMAIN_ENABLED }}" = "true" ]; then
+            echo "name=custom-domain" >> "$GITHUB_OUTPUT"
+            echo "has_custom_domain=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=project-pages" >> "$GITHUB_OUTPUT"
+            echo "has_custom_domain=false" >> "$GITHUB_OUTPUT"
+          fi
       - name: Build
-        run: pnpm build
+        run: |
+          echo "Deploy mode: ${{ steps.mode.outputs.name }}"
+          HAS_CUSTOM_DOMAIN="${{ steps.mode.outputs.has_custom_domain }}" pnpm build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
