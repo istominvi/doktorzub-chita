@@ -51,4 +51,4 @@ URL: `https://your-domain.com/`
 
 Vercel это не ломает:
 - для Vercel и локальной разработки остаются root-пути (`/`).
-- переключатель нужен только для GitHub Actions деплоя на Pages.
+- переключатель нужен только для GitHub Actions и деплоя на Pages.
