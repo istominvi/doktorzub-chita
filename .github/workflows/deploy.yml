@@ -31,8 +31,34 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+      - name: Resolve deploy mode
+        id: mode
+        run: |
+          # Two modes:
+          # - custom-domain (root paths)
+          # - project-pages (/doktorzub-chita)
+          #
+          # Priority:
+          # 1) CUSTOM_DOMAIN_ENABLED=true repository variable (force custom-domain mode)
+          # 2) otherwise auto-detect by CNAME file
+          if [ "${{ vars.CUSTOM_DOMAIN_ENABLED }}" = "true" ]; then
+            echo "name=custom-domain" >> "$GITHUB_OUTPUT"
+            echo "has_custom_domain=true" >> "$GITHUB_OUTPUT"
+            echo "source=repo-variable" >> "$GITHUB_OUTPUT"
+          elif [ -f "public/CNAME" ] || [ -f "CNAME" ]; then
+            echo "name=custom-domain" >> "$GITHUB_OUTPUT"
+            echo "has_custom_domain=true" >> "$GITHUB_OUTPUT"
+            echo "source=cname-file" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=project-pages" >> "$GITHUB_OUTPUT"
+            echo "has_custom_domain=false" >> "$GITHUB_OUTPUT"
+            echo "source=default" >> "$GITHUB_OUTPUT"
+          fi
       - name: Build
-        run: pnpm build
+        run: |
+          echo "Deploy mode: ${{ steps.mode.outputs.name }}"
+          echo "Mode source: ${{ steps.mode.outputs.source }}"
+          HAS_CUSTOM_DOMAIN="${{ steps.mode.outputs.has_custom_domain }}" pnpm build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
