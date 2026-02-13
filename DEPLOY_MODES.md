@@ -1,54 +1,47 @@
-# Deploy modes (только 2 режима)
+# Deploy modes (2 режима: с доменом / без домена)
 
-Переключение делается **одной переменной** в GitHub:
-`CUSTOM_DOMAIN_ENABLED`
+Сделано максимально просто и безопасно от "залипших" переменных.
 
-## Где переключать
+## Как теперь выбирается режим
 
-1. Открой репозиторий `istominvi/doktorzub-chita`.
-2. Зайди в: **Settings → Secrets and variables → Actions → Variables**.
-3. Создай/измени переменную `CUSTOM_DOMAIN_ENABLED`.
+1. Если в репозитории есть `public/CNAME` → режим **с доменом** (пути от `/`).
+2. Если `public/CNAME` нет → режим **без домена** (пути с `/doktorzub-chita`).
 
----
-
-## Режим 1: без домена (обычный GitHub Pages URL)
-
-URL: `https://<user>.github.io/doktorzub-chita/`
-
-Поставь:
-- `CUSTOM_DOMAIN_ENABLED=false`
-  (или просто удали переменную)
-
-Что будет:
-- сайт собирается с префиксом `/doktorzub-chita`
-- стили и скрипты грузятся правильно для project pages
-
----
-
-## Режим 2: с доменом (custom domain)
-
-URL: `https://your-domain.com/`
-
-Поставь:
+Дополнительно можно форсировать доменный режим переменной:
 - `CUSTOM_DOMAIN_ENABLED=true`
 
-Что будет:
-- сайт собирается от корня `/`
-- без префикса `/doktorzub-chita`
-- стили и скрипты грузятся правильно для кастомного домена
+> Важно: значение `false` больше не нужно и не используется.
 
 ---
 
-## После переключения
+## Где смотреть/менять
 
-1. Сделай любой push в `main` **или** запусти вручную:
-   **Actions → Deploy to GitHub Pages → Run workflow**.
-2. На сайте сделай hard refresh: `Ctrl/Cmd + Shift + R`.
+GitHub → `istominvi/doktorzub-chita` →
+**Settings → Secrets and variables → Actions → Variables**
+
+Если там есть `CUSTOM_DOMAIN_ENABLED=false` — удали эту переменную.
 
 ---
 
-## Важно про Vercel
+## Твой сценарий (doctorzub75.ru)
 
-Vercel это не ломает:
-- для Vercel и локальной разработки остаются root-пути (`/`).
-- переключатель нужен только для GitHub Actions и деплоя на Pages.
+Должно быть так:
+- файл `public/CNAME` существует
+- внутри: `doctorzub75.ru`
+- `CUSTOM_DOMAIN_ENABLED` либо отсутствует, либо `true`
+
+Тогда после деплоя пути будут такими:
+- ✅ `https://doctorzub75.ru/images/...`
+- ❌ не должно быть `https://doctorzub75.ru/doktorzub-chita/images/...`
+
+---
+
+## После изменений
+
+1. Запусти деплой заново:
+   - push в `main`, или
+   - **Actions → Deploy to GitHub Pages → Run workflow**
+2. Открой последний запуск и проверь лог:
+   - `Deploy mode: custom-domain`
+   - `Mode source: cname-file` или `repo-variable`
+3. Сделай hard refresh: `Ctrl/Cmd + Shift + R`.
