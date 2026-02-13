@@ -1,54 +1,54 @@
-# Deploy modes (2 режима: с доменом / без домена)
+# Deploy modes (только 2 режима)
 
-Сделано максимально просто.
+Переключение делается **одной переменной** в GitHub:
+`CUSTOM_DOMAIN_ENABLED`
 
-## Что теперь переключает режим
+## Где переключать
 
-1. **Автоматически по файлу `public/CNAME`**
-   - если файл есть → режим **с доменом** (пути от `/`)
-   - если файла нет → режим **без домена** (пути с `/doktorzub-chita`)
-
-2. **Опционально вручную переменной** `CUSTOM_DOMAIN_ENABLED`
-   - `true` → принудительно режим с доменом
-   - `false` → принудительно режим без домена
-
-> Переменная нужна только если хочешь вручную переопределить автологику.
+1. Открой репозиторий `istominvi/doktorzub-chita`.
+2. Зайди в: **Settings → Secrets and variables → Actions → Variables**.
+3. Создай/измени переменную `CUSTOM_DOMAIN_ENABLED`.
 
 ---
 
-## Где менять вручную (если нужно)
+## Режим 1: без домена (обычный GitHub Pages URL)
 
-GitHub → `istominvi/doktorzub-chita` →
-**Settings → Secrets and variables → Actions → Variables** → `CUSTOM_DOMAIN_ENABLED`
+URL: `https://<user>.github.io/doktorzub-chita/`
+
+Поставь:
+- `CUSTOM_DOMAIN_ENABLED=false`
+  (или просто удали переменную)
+
+Что будет:
+- сайт собирается с префиксом `/doktorzub-chita`
+- стили и скрипты грузятся правильно для project pages
 
 ---
 
-## Самый простой сценарий для тебя
+## Режим 2: с доменом (custom domain)
 
-### Когда работаешь с кастомным доменом `doctorzub75.ru`
+URL: `https://your-domain.com/`
 
-- Держи файл `public/CNAME` с содержимым:
-  `doctorzub75.ru`
-- `CUSTOM_DOMAIN_ENABLED` можно вообще не трогать.
+Поставь:
+- `CUSTOM_DOMAIN_ENABLED=true`
 
-### Когда хочешь вернуть режим без домена (`github.io/repo`)
-
-- Удали `public/CNAME`
-- Запусти новый деплой.
+Что будет:
+- сайт собирается от корня `/`
+- без префикса `/doktorzub-chita`
+- стили и скрипты грузятся правильно для кастомного домена
 
 ---
 
 ## После переключения
 
-1. Сделай push в `main` или запусти вручную workflow:
-   **Actions → Deploy to GitHub Pages → Run workflow**
-2. Обнови сайт с hard refresh: `Ctrl/Cmd + Shift + R`
+1. Сделай любой push в `main` **или** запусти вручную:
+   **Actions → Deploy to GitHub Pages → Run workflow**.
+2. На сайте сделай hard refresh: `Ctrl/Cmd + Shift + R`.
 
 ---
 
-## Почему у тебя были URL вида
-`https://doctorzub75.ru/doktorzub-chita/images/...`
+## Важно про Vercel
 
-Это признак, что сборка ушла в режим **без домена** (с префиксом `/doktorzub-chita`).
-Для кастомного домена должно быть так:
-`https://doctorzub75.ru/images/...`
+Vercel это не ломает:
+- для Vercel и локальной разработки остаются root-пути (`/`).
+- переключатель нужен только для GitHub Actions и деплоя на Pages.

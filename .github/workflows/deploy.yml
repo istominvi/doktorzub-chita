@@ -34,34 +34,19 @@ jobs:
       - name: Resolve deploy mode
         id: mode
         run: |
-          # Two modes:
-          # - custom-domain (root paths)
-          # - project-pages (/doktorzub-chita)
-          #
-          # Priority:
-          # 1) CUSTOM_DOMAIN_ENABLED=true/false repository variable
-          # 2) if variable is absent, auto-detect by CNAME file
+          # Only 2 modes:
+          # - CUSTOM_DOMAIN_ENABLED=true  -> custom domain (root paths)
+          # - otherwise                   -> project pages (/doktorzub-chita)
           if [ "${{ vars.CUSTOM_DOMAIN_ENABLED }}" = "true" ]; then
             echo "name=custom-domain" >> "$GITHUB_OUTPUT"
             echo "has_custom_domain=true" >> "$GITHUB_OUTPUT"
-            echo "source=repo-variable" >> "$GITHUB_OUTPUT"
-          elif [ "${{ vars.CUSTOM_DOMAIN_ENABLED }}" = "false" ]; then
-            echo "name=project-pages" >> "$GITHUB_OUTPUT"
-            echo "has_custom_domain=false" >> "$GITHUB_OUTPUT"
-            echo "source=repo-variable" >> "$GITHUB_OUTPUT"
-          elif [ -f "public/CNAME" ] || [ -f "CNAME" ]; then
-            echo "name=custom-domain" >> "$GITHUB_OUTPUT"
-            echo "has_custom_domain=true" >> "$GITHUB_OUTPUT"
-            echo "source=cname-file" >> "$GITHUB_OUTPUT"
           else
             echo "name=project-pages" >> "$GITHUB_OUTPUT"
             echo "has_custom_domain=false" >> "$GITHUB_OUTPUT"
-            echo "source=default" >> "$GITHUB_OUTPUT"
           fi
       - name: Build
         run: |
           echo "Deploy mode: ${{ steps.mode.outputs.name }}"
-          echo "Mode source: ${{ steps.mode.outputs.source }}"
           HAS_CUSTOM_DOMAIN="${{ steps.mode.outputs.has_custom_domain }}" pnpm build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
